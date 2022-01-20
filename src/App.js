@@ -19,13 +19,17 @@ function App() {
   }, []);
 
   const handleAddUser = async () => {
-    const userRes = await fetch(`https://randomuser.me/api/?page=${page}`);
-    const userJSON = await userRes.json();
-    setUser(userJSON.results[0]);
+    try {
+      const userRes = await fetch(`https://randomuser.me/api/?page=${page}`);
+      const userJSON = await userRes.json();
+      setUser(userJSON.results[0]);
 
-    if (loaded) {
-      setUsers((users) => [...users, user]);
-      setPage((page) => page + 1);
+      if (loaded) {
+        setUsers((users) => [...users, user]);
+        setPage((page) => page + 1);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
