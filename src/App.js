@@ -13,25 +13,22 @@ function App() {
     setCount((count) => count + 1);
   };
 
-  const handleAddUser = async () => {
-    try {
-      const fetchedUser = await getUsers(page);
-      setUser(fetchedUser.results[0]);
-      setLoaded(true);
-
-      if (loaded) {
-        setUsers((users) => [...users, user]);
-        setPage((page) => page + 1);
-      }
-    } catch (err) {
-      console.error(err);
+  const handleAddUser = () => {
+    if (loaded) {
+      // add fetched user on button click
+      setUsers((users) => [...users, user]);
+      setPage((page) => page + 1);
     }
   };
 
-  useEffect(() => {
-    handleAddUser();
+  useEffect(async () => {
+    // fetch a user on page load, with the updated page number
+    const fetchedUser = await getUsers(page);
+    setUser(fetchedUser.results[0]);
+    setLoaded(true);
+
     return () => setLoaded(false);
-  }, []);
+  }, [users, page]);
 
   return (
     <div className="App">
