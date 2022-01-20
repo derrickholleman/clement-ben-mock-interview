@@ -17,6 +17,8 @@ function App() {
     try {
       const fetchedUser = await getUsers(page);
       setUser(fetchedUser.results[0]);
+      setLoaded(true);
+      console.log(loaded);
 
       if (loaded) {
         setUsers((users) => [...users, user]);
@@ -28,9 +30,8 @@ function App() {
   };
 
   useEffect(() => {
-    setLoaded(false);
     handleAddUser();
-    setLoaded(true);
+    return () => setLoaded(false);
   }, []);
 
   return (
