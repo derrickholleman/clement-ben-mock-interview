@@ -18,7 +18,6 @@ function App() {
       const fetchedUser = await getUsers(page);
       setUser(fetchedUser.results[0]);
       setLoaded(true);
-      console.log(loaded);
 
       if (loaded) {
         setUsers((users) => [...users, user]);
