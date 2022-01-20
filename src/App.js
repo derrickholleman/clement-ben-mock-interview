@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import { getUsers } from "./utils/api";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,17 +13,10 @@ function App() {
     setCount((count) => count + 1);
   };
 
-  useEffect(() => {
-    setLoaded(false);
-    handleAddUser();
-    setLoaded(true);
-  }, []);
-
   const handleAddUser = async () => {
     try {
-      const userRes = await fetch(`https://randomuser.me/api/?page=${page}`);
-      const userJSON = await userRes.json();
-      setUser(userJSON.results[0]);
+      const fetchedUser = await getUsers(page);
+      setUser(fetchedUser.results[0]);
 
       if (loaded) {
         setUsers((users) => [...users, user]);
@@ -32,6 +26,12 @@ function App() {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    setLoaded(false);
+    handleAddUser();
+    setLoaded(true);
+  }, []);
 
   return (
     <div className="App">
